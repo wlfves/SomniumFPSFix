@@ -328,6 +328,14 @@ python3 tools/decrypt_assets.py --all <extracted_dir> <output_dir>
 - Built on [BepInEx](https://github.com/BepInEx/BepInEx) and
   [HarmonyX](https://github.com/BepInEx/HarmonyX).
 
+## Q & A
+
+**Q: Why did it take you six years to make this mod**
+**Q: Why did you make this after six years, who is even still playing this?**
+
+A: Idk you're the one reading this 👀. And I was really inspired by the awesome [AdmiralCurtiss](https://github.com/AdmiralCurtiss) and [their work on Phoenix Wright]( https://github.com/AdmiralCurtiss/dgs_hackfix) which without I wouldn't have played that game. So I hope this helps someone :)
+
+
 ## License
 
 [GNU General Public License v3.0](LICENSE) (GPLv3). If you distribute this mod or
