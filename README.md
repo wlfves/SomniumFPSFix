@@ -98,7 +98,7 @@ Cool! Err...
 
 And it never got fixed, so let's do it ourselves! (Please don't annoy Chunsoft over this, I'm sure this was very very very low down the list of priorities to patch and just got missed somehow).
 
-I dabbled with fixing this a couple of times over the years, but never solved it fully until now. The encryption of the game scripts was the most annoying thing it took me a while to figure out. Then by the time I eventually got around to picking this back up again AI was a thing, so Claude helped me polish the fix.
+I dabbled with fixing this a couple of times over the years, but never solved it fully until now. The encryption of the game scripts was the most annoying thing it took me a while to figure out (and it turned out to be really simple, oof, see 'Encryption' below). Then by the time I eventually got around to picking this back up again AI was a thing, so Claude helped me polish the fix.
 
 ## What this mod does
 
