@@ -1,0 +1,13 @@
+# Build output
+bin/
+obj/
+
+# Visual Studio / Rider
+.vs/
+.idea/
+*.user
+
+# Game-supplied reference assemblies.
+# These are copyrighted files from the game install and must NOT be committed.
+# Copy them into Lib/ yourself before building (see README -> Building from source).
+Lib/

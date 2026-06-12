@@ -1,0 +1,56 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net35</TargetFramework>
+    <AssemblyName>SomniumFPSFix</AssemblyName>
+    <Product>Somnium FPS Fix</Product>
+    <Version>1.2.0</Version>
+    <Authors>wlf.moe</Authors>
+    <Description>Fixes the high-FPS slow-motion crash during Psyncs in AI: The Somnium Files.</Description>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <LangVersion>latest</LangVersion>
+    <RestoreAdditionalProjectSources>
+      https://api.nuget.org/v3/index.json;
+      https://nuget.bepinex.dev/v3/index.json;
+      https://nuget.samboy.dev/v3/index.json
+    </RestoreAdditionalProjectSources>
+    <RootNamespace>SomniumFPSFix</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="BepInEx.Analyzers" Version="1.*" PrivateAssets="all" />
+    <PackageReference Include="BepInEx.Core" Version="5.*" />
+    <PackageReference Include="UnityEngine.Modules" Version="2017.4.17" IncludeAssets="compile" />
+  </ItemGroup>
+  
+  <ItemGroup Condition="'$(TargetFramework.TrimEnd(`0123456789`))' == 'net'">
+    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.2" PrivateAssets="all" />
+  </ItemGroup>
+
+	<ItemGroup>
+		<Reference Include="Assembly-CSharp-firstpass">
+		  <HintPath>Lib\Assembly-CSharp-firstpass.dll</HintPath>
+		  <Private>False</Private>
+		</Reference>
+		<Reference Include="Assembly-CSharp">
+		  <HintPath>Lib\Assembly-CSharp.dll</HintPath>
+		  <Private>False</Private>
+		</Reference>
+		<Reference Include="TextMeshPro-2017.3-Runtime">
+		  <HintPath>Lib\TextMeshPro-2017.3-Runtime.dll</HintPath>
+		  <Private>False</Private>
+		</Reference>
+		<Reference Include="UnityEngine.UI">
+		  <HintPath>Lib\UnityEngine.UI.dll</HintPath>
+		  <Private>False</Private>
+		</Reference>
+	</ItemGroup>
+	<!-- Local dev convenience: after a Debug build, copy the built DLL into the
+	     game's plugin folder. Skipped for Release builds. Update the path below
+	     if your game is installed elsewhere. -->
+	<Target Name="CopyToGamePlugins" AfterTargets="Build" Condition="'$(Configuration)' == 'Debug'">
+		<Delete Files="C:\Program Files (x86)\Steam\steamapps\common\AI The Somnium Files\BepInEx\plugins\SomniumFPSFix\$(TargetFileName)" />
+		<Copy SourceFiles="$(TargetPath)" DestinationFolder="C:\Program Files (x86)\Steam\steamapps\common\AI The Somnium Files\BepInEx\plugins\SomniumFPSFix" />
+	</Target>
+
+</Project>
