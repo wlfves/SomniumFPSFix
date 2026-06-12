@@ -1,4 +1,4 @@
-# Somnium FPS Fix
+# Somnium FPS Fix (Deep-Fried Bug)
 
 A [BepInEx](https://github.com/BepInEx/BepInEx) mod for **AI: The Somnium Files**
 that fixes a crash and slow-motion glitch that happens during Psyncs when the
@@ -15,11 +15,90 @@ speed while you move. This works fine at 60 FPS.
 
 Above roughly **100 FPS**, standing still instead makes the slow-motion effect
 speed up uncontrollably until the game's internal timer overflows and the game
-(sometimes) **crashes**. The higher your frame rate, the faster this happens.
+(sometimes) crashes. The higher your frame rate, the faster this happens.
+
+### If your game looks like this when you stand still you have the bug
+
+
+<img width="2560" height="1440" alt="20260612223434_1" src="https://github.com/user-attachments/assets/a591c224-887a-4fda-9e74-7132bcb0849c" />
+<img width="2560" height="1440" alt="20260612223521_1" src="https://github.com/user-attachments/assets/5e80802f-08ee-4e36-8afe-f125766d939c" />
 
 If you've uncapped your frame rate (for example with a high-refresh-rate
 monitor) and your Psyncs keep crashing when you stop moving, this is almost
 certainly the bug you're hitting.
+
+## A quick history
+
+I first noticed this issue on release day and reported it to Spike the next day
+
+> **From:** wlfves
+  > **Date:** Wed, 18 Sep 2019, 20:54
+  > **To:** Spike Chunsoft User Support &lt;support-ai@spike-chunsoft.co.jp&gt;
+  >
+  > Hi Spike Chunsoft,
+  >
+  > I'm one of the people affected by the problem that seems to happen for users
+  > of refresh rates higher than 60fps discussed at
+  > https://steamcommunity.com/app/948740/discussions/1/1628538005504421289 .
+  >
+  > After toggling Anisotropic filtering on and off, my game no longer has the
+  > issue, but is locked at 60fps which isn't really ideal.
+  >
+  > My DxDiag is attached.
+  >
+  > Thanks for all your help!
+  >
+  > -wlfves
+
+> **From:** Spike Chunsoft User Support &lt;support-ai@spike-chunsoft.co.jp&gt;
+  > **Date:** 24 Sept 2019, 03:18
+  > **To:** wlfves
+  >
+  > Hello,
+  >
+  > This is Spike Chunsoft User Support.
+  >
+  > Thank you for your reply.
+  >
+  > The provided information has been sent to the department in charge and the
+  > reported issue is currently under investigation.
+  > We are sincerely sorry for the delay.
+  > We will inform you about any updates regarding the situation.
+  > Thank you for your time and patience.
+
+Cool! Err...
+
+> **From:** wlfves
+  > **Date:** 1 Nov 2019, 18:19
+  > **To:** Spike Chunsoft User Support &lt;support-ai@spike-chunsoft.co.jp&gt;
+  >
+  > Hi Spike Chunsoft,
+  >
+  > I just want to confirm this is still an issue as originally described. All
+  > affected users are currently limiting the game to 97FPS during Somniums, then
+  > unlimiting the game for smoothness the rest of the game.
+  >
+  > wlfves
+
+  > **From:** Spike Chunsoft User Support &lt;support-ai@spike-chunsoft.co.jp&gt;
+  > **Date:** 5 Nov 2019, 09:39
+  > **To:** wlfves
+  >
+  > Hello,
+  >
+  > This is Spike Chunsoft User Support.
+  > We apologize that it has taken so long to get back to you.
+  >
+  > The development team is currently investigating the issue.
+  > Once the issue is identified, we will soon update the game.
+  >
+  > We are deeply sorry for the inconvenience.
+  > Thank you very much for your great patience and understanding.
+  > Kind regards
+
+And it never got fixed, so let's do it ourselves! (Please don't annoy Chunsoft over this, I'm sure this was very very very low down the list of priorities to patch and just got missed somehow).
+
+I dabbled with fixing this a couple of times over the years, but never solved it fully until now. The encryption of the game scripts was the most annoying thing it took me a while to figure out. Then by the time I eventually got around to picking this back up again AI was a thing, so Claude helped me polish the fix.
 
 ## What this mod does
 
@@ -31,9 +110,15 @@ does at 60 FPS, at any frame rate, and can never run away.
   FPS cap and it does not change how the Somnium feels.
 - It is applied to the game's script in memory, as the game loads it. No
   game files are modified on disk, and no game files are bundled with this mod.
-- It's fail-safe: if a future game update (not that I'd expect one at this point) changes the script so the fix no
+- It's fail-safe (hopefully): if a future game update (not that I'd expect one at this point) changes the script so the fix no
   longer fits, the mod refuses to apply a stale patch and logs a warning instead
   (see [Compatibility & safety](#compatibility--safety)).
+
+### Yay! No more deep-fried game!
+
+<img width="2560" height="1440" alt="20260612223436_1" src="https://github.com/user-attachments/assets/67129989-8f69-4763-b5da-285f8ca31653" />
+<img width="2560" height="1440" alt="20260612223526_1" src="https://github.com/user-attachments/assets/079a3cd4-7f85-4965-9dda-86391b881025" />
+
 
 ## Requirements
 
@@ -63,7 +148,7 @@ does at 60 FPS, at any frame rate, and can never run away.
    - In `BepInEx/LogOutput.log` you should see a line like:
      `Applied FPS fix to 'somnium' (... bytes).`
 
-That's it — start a Psync and the crash is gone.
+That's it - start a Psync, stand still and hopefully the game won't get deep-fried anymore!
 
 ## Configuration
 
@@ -83,7 +168,7 @@ to touch it.
 The Somnium script tracks a single "movement amount" number that eases between
 **0** (standing still) and **1** (moving), and feeds it into the Somnium's
 slow-motion. Every frame, the original script also runs a line that feeds that
-number back into itself, slightly larger — it grows by about 1% per frame.
+number back into itself, slightly larger - it grows by about 1% per frame.
 
 At 60 FPS the script's normal per-frame easing cancels that growth out. But the
 higher the frame rate, the less time each frame covers, and above ~100 FPS the
@@ -118,7 +203,7 @@ if eventMode == false then
     -- second, the more times per second 'value' gets multiplied up. The easing
     -- above can only pull it back down by a small per-frame amount, so above
     -- ~100 FPS it loses the race and 'value' compounds toward infinity.
-    -- (This result was almost certainly meant to be stored in a separate
+    -- (This result was probably meant to be stored in a separate
     --  variable, not written back into 'value'.)
     value = (value + timer_min_speed) / (1 - timer_min_speed)
 else
@@ -167,8 +252,8 @@ away.
 
 ## Building from source
 
-This project targets **.NET Framework 3.5** (to match the game's runtime) and
-references several assemblies from the game install, which are **not** included
+This project targets .NET Framework 3.5 (to match the game's runtime) and
+references several assemblies from the game install, which are not included
 in this repository because they're copyrighted game files.
 
 1. Clone the repository.
@@ -180,7 +265,7 @@ in this repository because they're copyrighted game files.
    - `UnityEngine.UI.dll`
 3. Build:
    ```
-   dotnet build -c Release
+   dotnet build -c Release (or hit build in Visual Studio)
    ```
    The plugin DLL is produced under `bin/Release/`.
 
@@ -191,16 +276,17 @@ in this repository because they're copyrighted game files.
 ## Extracting the game's Lua scripts
 
 The game's logic is written in Lua. If you want to read the scripts yourself —
-to verify this fix, regenerate it after a game update, or build a different mod —
-this section documents how they're stored and includes a tool to extract them.
+to verify this fix, regenerate it after a game update, or build a different mod, you need to be able to work with them.
 
-**Where they live.** Every Lua module is compiled to Lua 5.1 bytecode and stored
+Every Lua module is compiled to Lua 5.1 bytecode and stored
 inside a Unity AssetBundle as a `TextAsset`, at the path
 `Assets/AutoGen/LuaByteCode/<module>.bytes` (for example, `somnium.bytes`).
 
-**They're encrypted.** This is the important part: pulling the `.bytes` out with
-a tool like AssetStudio or AssetRipper gives you **ciphertext** that won't
-decompile — which is a common dead end. The game decrypts each module in memory
+### Encryption
+
+This is the important part: pulling the `.bytes` out with
+a tool like AssetStudio or AssetRipper gives you something that looks a lot like sLUA(?) that won't
+decompile - Very annoying. The game decrypts each module in memory
 right before running it, using a simple counter-based XOR cipher:
 
 - For every byte at index `i >= 4`, XOR it with `i & 0xFF` (the low 8 bits of its
@@ -235,9 +321,6 @@ python3 tools/decrypt_assets.py somnium.bytes somnium.luac
 # Or decrypt a whole folder of extracted .bytes files at once:
 python3 tools/decrypt_assets.py --all <extracted_dir> <output_dir>
 ```
-
-> This is provided for inspecting your own copy of the game. No game scripts —
-> encrypted or decrypted — are included in this repository.
 
 ## Credits
 
