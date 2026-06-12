@@ -53,8 +53,9 @@ does at 60 FPS, at any frame rate, and can never run away.
    - Launch the game once and quit. This lets BepInEx generate its folders.
 
 2. **Install this mod:**
-   - Create the folder `BepInEx/plugins/SomniumFPSFix/`.
-   - Copy `SomniumFPSFix.dll` into it.
+   - Copy `SomniumFPSFix.dll` into `BepInEx/plugins/`.
+   - (BepInEx scans that folder recursively, so a subfolder such as
+     `BepInEx/plugins/SomniumFPSFix/` works too if you like to keep mods tidy.)
 
 3. **Verify it's working:**
    - Launch the game. On the title screen you should briefly see
@@ -157,8 +158,8 @@ away.
 ## Troubleshooting
 
 - **No "active" label on the title screen / no log line:** BepInEx isn't loading
-  the mod. Check that `SomniumFPSFix.dll` is in
-  `BepInEx/plugins/SomniumFPSFix/`, that you installed the **x64** build of
+  the mod. Check that `SomniumFPSFix.dll` is somewhere under
+  `BepInEx/plugins/`, that you installed the **x64** build of
   BepInEx, and that `BepInEx/LogOutput.log` shows BepInEx starting up.
 - **Log warns about an unexpected script size:** the game has probably been
   updated and this mod needs a new release. Until then, the fallback (if
