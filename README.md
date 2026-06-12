@@ -116,8 +116,8 @@ does at 60 FPS, at any frame rate, and can never run away.
 
 ### Yay! No more deep-fried game!
 
-<img width="2560" height="1440" alt="20260612223436_1" src="https://github.com/user-attachments/assets/67129989-8f69-4763-b5da-285f8ca31653" />
-<img width="2560" height="1440" alt="20260612223526_1" src="https://github.com/user-attachments/assets/079a3cd4-7f85-4965-9dda-86391b881025" />
+<img width="2560" height="1440" alt="20260612230031_1" src="https://github.com/user-attachments/assets/ccd8b348-b0fc-47e4-8fcb-b20e5107a73c" />
+<img width="2560" height="1440" alt="20260612230039_1" src="https://github.com/user-attachments/assets/478acb7f-e449-4103-b210-d4f96240c4fa" />
 
 
 ## Requirements
