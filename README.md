@@ -8,6 +8,42 @@ game runs at high frame rates.
 
 ---
 
+## Quick Install
+
+**Download:** grab `SomniumFPSFix.dll` from the
+[latest release](https://github.com/wlfves/SomniumFPSFix/releases/latest).
+
+1. **Install BepInEx** if you haven't already:
+   - Download the latest **BepInEx 5.x x64** release.
+   - Extract it into your game folder — the folder that contains
+     `AI_TheSomniumFiles.exe`. You should end up with a `BepInEx` folder next to
+     the game's `.exe`.
+   - Launch the game once and quit. This lets BepInEx generate its folders.
+
+2. **Install this mod:**
+   - Copy `SomniumFPSFix.dll` into `BepInEx/plugins/`.
+
+3. **Verify it's working:**
+   - Launch the game. On the title screen you should briefly see
+     **"Somnium FPS Fix v1.2.0 active"** in the top-right corner. This will only appear at your first visit to the title screen, and disappear when you press "Load" or "New game".
+   - In `BepInEx/LogOutput.log` you should see a line like:
+     `Applied FPS fix to 'somnium' (... bytes).`
+
+That's it - start a Psync, stand still and hopefully the game won't get deep-fried anymore!
+
+## Configuration
+
+A config file is created at `BepInEx/config/somniumfpsfix.mods.wlf.moe.cfg`
+the first time you run the game with the mod installed. You normally don't need
+to touch it.
+
+| Setting | Default | What it does |
+|---|---|---|
+| `Enabled` | `true` | Turn the fix on or off. |
+| `ModuleName` | `somnium` | Name of the script module to patch. The Somnium engine is `somnium`; you should not need to change this. |
+| `ExpectedOriginalLength` | `220953` | Size in bytes of the original Somnium script this fix was built for. The fix is only applied when the script matches this size, so a game update can't have an out-of-date patch forced onto it. Set to `0` to skip the check (not recommended). |
+| `FallbackInMemoryPatch` | `true` | If the main fix can't be applied, use a simpler safety-net fix instead (see below). |
+
 ## The problem
 
 Inside a Somnium, time slows to a crawl while you stand still and runs at normal
@@ -124,44 +160,6 @@ does at 60 FPS, at any frame rate, and can never run away.
 
 - AI: The Somnium Files (Steam). The fix targets the current Steam build.
 - [BepInEx 5.x, 64-bit (x64)](https://github.com/BepInEx/BepInEx/releases).
-
-## Installation
-
-**Download:** grab `SomniumFPSFix.dll` from the
-[latest release](https://github.com/wlfves/SomniumFPSFix/releases/latest).
-
-1. **Install BepInEx** if you haven't already:
-   - Download the latest **BepInEx 5.x x64** release.
-   - Extract it into your game folder — the folder that contains
-     `AI_TheSomniumFiles.exe`. You should end up with a `BepInEx` folder next to
-     the game's `.exe`.
-   - Launch the game once and quit. This lets BepInEx generate its folders.
-
-2. **Install this mod:**
-   - Copy `SomniumFPSFix.dll` into `BepInEx/plugins/`.
-   - (BepInEx scans that folder recursively, so a subfolder such as
-     `BepInEx/plugins/SomniumFPSFix/` works too if you like to keep mods tidy.)
-
-3. **Verify it's working:**
-   - Launch the game. On the title screen you should briefly see
-     **"Somnium FPS Fix v1.2.0 active"** in the top-right corner. This will only appear at your first visit to the title screen, and disappear when you press "Load" or "New game".
-   - In `BepInEx/LogOutput.log` you should see a line like:
-     `Applied FPS fix to 'somnium' (... bytes).`
-
-That's it - start a Psync, stand still and hopefully the game won't get deep-fried anymore!
-
-## Configuration
-
-A config file is created at `BepInEx/config/somniumfpsfix.mods.wlf.moe.cfg`
-the first time you run the game with the mod installed. You normally don't need
-to touch it.
-
-| Setting | Default | What it does |
-|---|---|---|
-| `Enabled` | `true` | Turn the fix on or off. |
-| `ModuleName` | `somnium` | Name of the script module to patch. The Somnium engine is `somnium`; you should not need to change this. |
-| `ExpectedOriginalLength` | `220953` | Size in bytes of the original Somnium script this fix was built for. The fix is only applied when the script matches this size, so a game update can't have an out-of-date patch forced onto it. Set to `0` to skip the check (not recommended). |
-| `FallbackInMemoryPatch` | `true` | If the main fix can't be applied, use a simpler safety-net fix instead (see below). |
 
 ## How it works
 
